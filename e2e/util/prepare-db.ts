@@ -17,6 +17,10 @@ export const prepareDb = async (app: INestApplication) => {
   await seedDb(connection);
 };
 
+export const randomNumber = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 const seedDb = async (connection: Connection) => {
   const path = 'projectPath';
   faker.seed(123);

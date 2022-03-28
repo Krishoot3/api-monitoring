@@ -1,0 +1,44 @@
+image: node:latest
+
+stages:    
+  - test
+  - code_quality
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+unit-tests:   
+  stage: test
+  only: 
+    - main
+  script:
+    - npm install
+    - npm run test
+
+e2e-tests:   
+  stage: test
+  only: 
+    - main
+  script:
+    - npm run test:e2e -- -u
+
+eslint-prettier:    
+  stage: code_quality
+  only: 
+    - main
+  script:
+    - npm run lint
+    - npm run format
+
+deploy-heroku:
+  image: ruby:latest
+  only:
+    - main
+  stage: deploy
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY

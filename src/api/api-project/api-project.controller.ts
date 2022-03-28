@@ -38,11 +38,11 @@ export class ApiProjectController {
     required: true,
   })
   @Put(':path')
-  async update(
+  async updateProject(
     @Param('path') path: string,
     @Body() putBody: PutBodyDto,
   ): Promise<ProjectDto> {
-    return this.apiProjectService.update(path, putBody);
+    return this.apiProjectService.updateProject(path, putBody);
   }
 
   @ApiCreatedResponse({
@@ -56,8 +56,8 @@ export class ApiProjectController {
     required: true,
   })
   @Post()
-  async create(@Body() postBody: PostBodyDto): Promise<ProjectDto> {
-    return this.apiProjectService.create(postBody);
+  async createProject(@Body() postBody: PostBodyDto): Promise<ProjectDto> {
+    return this.apiProjectService.createProject(postBody);
   }
 
   @ApiOkResponse({

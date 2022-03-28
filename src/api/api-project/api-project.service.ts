@@ -37,7 +37,7 @@ export class ApiProjectService {
     });
   }
 
-  async update(path: string, putBody: PutBodyDto): Promise<ProjectDto> {
+  async updateProject(path: string, putBody: PutBodyDto): Promise<ProjectDto> {
     const projectFind = await this.projectRepository.findOneOrFail({
       where: { path: path },
     });
@@ -55,7 +55,7 @@ export class ApiProjectService {
     });
   }
 
-  async create(postBody: PostBodyDto): Promise<ProjectDto> {
+  async createProject(postBody: PostBodyDto): Promise<ProjectDto> {
     const projectFind = await this.projectRepository.findOne({
       where: [{ id: postBody.id }, { path: postBody.path }],
     });

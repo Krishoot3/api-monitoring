@@ -2,7 +2,8 @@ import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { AppModule } from '../src/app.module';
-import { prepareDb } from './util/prepare-db';
+//import { prepareDb } from './util/prepare-db';
+import { randomNumber } from './util/prepare-db';
 import * as f from './util/data.factory';
 import { Connection } from 'typeorm';
 import { ReleaseAssets } from '../src/entities/ReleaseAssets';
@@ -21,9 +22,9 @@ describe('API-Project E2E test', () => {
     await app.init();
   });
 
-  beforeEach(async () => {
-    await prepareDb(app);
-  });
+  // beforeEach(async () => {
+  //   await prepareDb(app);
+  // });
 
   afterAll(async () => {
     await app.close();
@@ -68,10 +69,10 @@ describe('API-Project E2E test', () => {
       .expect((res) => {
         expect(res.body).toMatchInlineSnapshot(`
           Object {
-            "description": "in unde nihil iste asperiores consequatur ex quidem omnis inventore deserunt ipsa eligendi officiis voluptatem nostrum in omnis labore consequatur",
+            "description": "sapiente dolor voluptates maiores aut sapiente modi consequatur fuga nemo dolorem fugiat nemo corporis aut iusto consequatur ex tenetur sit",
             "name": "projectPath2",
             "visibility": "private",
-            "web_url": "http://schuyler.name",
+            "web_url": "https://filiberto.org",
           }
         `);
       });
@@ -103,7 +104,8 @@ describe('API-Project E2E test', () => {
 
   it(`api/project/:path (POST)`, async () => {
     const apiKey = process.env.API_KEY;
-    const projectBody = f.newProject('projectPath234', 123);
+    const randomNum: number = randomNumber(10, 200);
+    const projectBody = f.newProject('projectPath' + randomNum, randomNum);
     return request(app.getHttpServer())
       .post(`/api/project/`)
       .query({ apiKey: apiKey })
@@ -113,10 +115,10 @@ describe('API-Project E2E test', () => {
       .expect((res) => {
         expect(res.body).toMatchInlineSnapshot(`
           Object {
-            "description": "in unde nihil iste asperiores consequatur ex quidem omnis inventore deserunt ipsa eligendi officiis voluptatem nostrum in omnis labore consequatur",
-            "name": "projectPath234",
-            "visibility": "private",
-            "web_url": "http://schuyler.name",
+            "description": "distinctio expedita et eum tenetur sit aperiam et porro et autem accusamus eligendi accusantium dicta consequatur fugit necessitatibus tempora autem",
+            "name": "projectPath66",
+            "visibility": "public",
+            "web_url": "https://johnnie.name",
           }
         `);
       });
@@ -152,8 +154,8 @@ describe('API-Project E2E test', () => {
         expect(res.body).toMatchInlineSnapshot(`
           Array [
             Object {
-              "lang": "PHP",
-              "percent": 2,
+              "lang": "JS",
+              "percent": 0,
               "project": 2,
             },
           ]
@@ -180,24 +182,24 @@ describe('API-Project E2E test', () => {
             Object {
               "assets": Array [
                 Object {
-                  "architecture": "MAC",
+                  "architecture": "LIN",
                   "type": "SRC",
-                  "url": "http://modesta.net",
+                  "url": "http://katharina.net",
                 },
               ],
               "created_at": "2019-09-18",
-              "description": "harum sit odio quia vitae provident quo provident molestiae harum",
-              "name": "deserunt",
-              "tag_name": "id",
+              "description": "harum voluptas sunt omnis et accusantium et quia quos sequi",
+              "name": "exercitationem",
+              "tag_name": "doloribus",
             },
           ]
         `);
       });
   });
-  it(`api/project/:path/langs (GET) 404`, async () => {
+  it(`api/project/:path/releases (GET) 404`, async () => {
     const path = 'abcd123';
     return request(app.getHttpServer())
-      .get(`/api/project/${path}/langs`)
+      .get(`/api/project/${path}/releases`)
       .set('Accept', 'application/json')
       .expect(404);
   });
@@ -218,9 +220,9 @@ describe('API-Project E2E test', () => {
       .expect((res) => {
         expect(res.body).toMatchInlineSnapshot(`
           Object {
-            "architecture": "MAC",
+            "architecture": "LIN",
             "type": "SRC",
-            "url": "http://modesta.net",
+            "url": "http://katharina.net",
           }
         `);
       });
