@@ -43,7 +43,3 @@ $ npm run test:e2e
 
 # update e2e tests snapshots
 $ npm run test:e2e -- -u
-
-# test coverage
-$ npm run test:cov
-```
